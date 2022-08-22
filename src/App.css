@@ -1,3 +1,68 @@
-.App {
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: #FFFEFC;
   text-align: center;
 }
+
+header h2{
+  background-color: #AD9C89;
+  color: #FFFEFC;
+  font-size:2rem;
+  padding: 1rem;
+}
+
+#ideia{
+  display: inline-block;
+  background-color: #fbeee0;
+  margin: 1rem;
+  padding: 2rem;
+  border: 1px solid #fbeee0;
+  border-radius: 1rem;
+  color: #422800;
+}
+
+
+
+
+
+
+
+
+
+
+
+.botão-gerador {
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  border-radius: 30px;
+  box-shadow: #422800 5px 5px 0 0;
+  color: #422800;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: 50px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.botão-gerador:hover {
+  background-color: #fff5ec;
+  color: #976f34;
+}
+
+.botão-gerador:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+  transition: 0.02s;
+}
+
