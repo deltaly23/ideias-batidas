@@ -24,7 +24,7 @@ function App() {
   useEffect(()=>{
     db.collection('blocos').onSnapshot(snapshot =>{
       setBlocos(snapshot.docs.map(function(document){
-        return {id:document.id, info:document.data()} 
+        return {id:document.id, info:document.data()}
       }))
     })
 
@@ -40,6 +40,8 @@ function App() {
       
       setIdeiaGerada(gerador());
     }
+
+
   },[repetidor])
    
 
