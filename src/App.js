@@ -1,8 +1,8 @@
 import './App.css';
 import {useEffect, useState} from 'react';
 import {db, storage, functions} from './firebase.js';
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { doc, setDoc } from "firebase/firestore";
+import {query} from "firebase/firestore";
+
 
 
 
@@ -11,47 +11,58 @@ function App() {
   const [repetidor, setRepetidor] = useState(0);
   const [ideiaGerada, setIdeiaGerada] = useState("gerando ideia...");
   
-
+    
   function gerador(){
     let verboSelecionado = blocos[2].info.lista[Math.floor(Math.random() * blocos[2].info.lista.length)];
-    let substantivo1Selecionado = blocos[1].info.lista[Math.floor(Math.random() * blocos[1].info.lista.length)];
-    let substantivo2Selecionado = blocos[1].info.lista[Math.floor(Math.random() * blocos[1].info.lista.length)];
+    let substantivoSelecionado = blocos[1].info.lista[Math.floor(Math.random() * blocos[1].info.lista.length)];
     let localSelecionado = blocos[0].info.lista[Math.floor(Math.random() * blocos[0].info.lista.length)];
 
-    let ideia = (substantivo1Selecionado + verboSelecionado + localSelecionado)
+    let ideia = (substantivoSelecionado + verboSelecionado + localSelecionado)
     
     return(ideia)
   }
 
-  function salvarIdeia(){
-    let ideiasSalvas = db.collection("ideias-salvas");
+  function salvarIdeia(gatilho){
+    let nota = gatilho.target.value;
+    let ideiasSalvas = db.collection("ideias-salvas"); 
     let q = query(ideiasSalvas.where("conteudo", "==", ideiaGerada));
+    
 
     q.get()
     .then((querySnapshot) => {
-      if(querySnapshot.empty == false){
-        console.log("ja foi salvo")
 
-        /**querySnapshot.forEach((doc) => {
-          console.log("conteudo: ", doc.data().conteudo,"pontuação: ", doc.data().pontuação);
-        });**/
+      if(querySnapshot.empty == false){/**se ja foi salvo**/
+        console.log("já foi salvo")
 
-      }else if(querySnapshot.empty == true){
+        querySnapshot.forEach((doc) => {
+          let atualizador = {pontuação: doc.data().pontuação + parseInt(nota), avaliações: doc.data().avaliações + 1}
+          ideiasSalvas.doc(doc.id).update({
+            pontuação: atualizador.pontuação, 
+            avaliações: atualizador.avaliações,
+            media: (atualizador.pontuação) / (atualizador.avaliações)
+          });
+        });
+
+      }else if(querySnapshot.empty == true){/**se não foi salvo**/
         console.log("ainda não foi salva")
 
-
-
-
-
-
-
+        ideiasSalvas.add({
+          conteudo: ideiaGerada,
+          pontuação: parseInt(nota),
+          avaliações: 1,
+          media: parseInt(nota)
+        })
       }
 
-      
     })
     .catch((error) => {
-        console.log("erro ao pegar os documentos no servidor: ", error);
+      console.log("erro ao pegar os documentos no servidor: ", error);
     })
+
+    let estrelas = document.getElementsByClassName("estrelas")
+    for(let i= 0; i<estrelas.length; i++){
+      estrelas[i].disabled = true;
+    }
   }
   
 
@@ -73,8 +84,12 @@ function App() {
       console.log("o repetidor agora esta em " + repetidor + " e é pra array dos blocos estar pronta, vê ai")
       
       setIdeiaGerada(gerador());
+      let estrelas = document.getElementsByClassName("estrelas")
+      for(let i= 0; i<estrelas.length; i++){
+        estrelas[i].disabled = false;
+        estrelas[i].checked = false;
+      }
     }
-
 
   },[repetidor])
    
@@ -87,16 +102,15 @@ function App() {
 
       <div id="ideia">{ideiaGerada}</div>
 
-
-
       <form>
         <p>avalie essa ideia:</p>
-        <input className="estrelas" type="radio" name='nota' value="1" onChange={salvarIdeia}></input>
-        <input className="estrelas" type="radio" name='nota' value="2" onChange={salvarIdeia}></input>
-        <input className="estrelas" type="radio" name='nota' value="3" onChange={salvarIdeia}></input>
-        <input className="estrelas" type="radio" name='nota' value="4" onChange={salvarIdeia}></input>
-        <input className="estrelas" type="radio" name='nota' value="5" onChange={salvarIdeia}></input>
+        <input className="estrelas" type="radio" name='nota' value="1" onClick={salvarIdeia}></input>
+        <input className="estrelas" type="radio" name='nota' value="2" onClick={salvarIdeia}></input>
+        <input className="estrelas" type="radio" name='nota' value="3" onClick={salvarIdeia}></input>
+        <input className="estrelas" type="radio" name='nota' value="4" onClick={salvarIdeia}></input>
+        <input className="estrelas" type="radio" name='nota' value="5" onClick={salvarIdeia}></input>
       </form>
+      
       <button className="botão-gerador" onClick={() => setRepetidor((repetidor) => repetidor + 1)} >gerar nova ideia</button>
       
       </div>
