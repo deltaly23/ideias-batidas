@@ -22,6 +22,17 @@ function App() {
     return(ideia)
   }
 
+
+
+
+
+
+
+
+
+
+
+
   function salvarIdeia(gatilho){
     let nota = gatilho.target.value;
     let ideiasSalvas = db.collection("ideias-salvas"); 
@@ -59,12 +70,29 @@ function App() {
       console.log("erro ao pegar os documentos no servidor: ", error);
     })
 
+    
     let estrelas = document.getElementsByClassName("estrelas")
+    
     for(let i= 0; i<estrelas.length; i++){
       estrelas[i].disabled = true;
     }
   }
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   useEffect(()=>{
     db.collection('blocos').onSnapshot(snapshot =>{
@@ -97,18 +125,20 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h2>ideias batidas</h2>
+        <h2 id="logo">ideias batidas</h2>
       </header>
 
       <div id="ideia">{ideiaGerada}</div>
 
-      <form>
+      <form id="caixa-avaliação">
         <p>avalie essa ideia:</p>
-        <input className="estrelas" type="radio" name='nota' value="1" onClick={salvarIdeia}></input>
-        <input className="estrelas" type="radio" name='nota' value="2" onClick={salvarIdeia}></input>
-        <input className="estrelas" type="radio" name='nota' value="3" onClick={salvarIdeia}></input>
-        <input className="estrelas" type="radio" name='nota' value="4" onClick={salvarIdeia}></input>
-        <input className="estrelas" type="radio" name='nota' value="5" onClick={salvarIdeia}></input>
+        <div>
+          <input className="estrelas" type="radio" name='nota' value="1" onClick={salvarIdeia}></input>
+          <input className="estrelas" type="radio" name='nota' value="2" onClick={salvarIdeia}></input>
+          <input className="estrelas" type="radio" name='nota' value="3" onClick={salvarIdeia}></input>
+          <input className="estrelas" type="radio" name='nota' value="4" onClick={salvarIdeia}></input>
+          <input className="estrelas" type="radio" name='nota' value="5" onClick={salvarIdeia}></input>
+        </div>
       </form>
       
       <button className="botão-gerador" onClick={() => setRepetidor((repetidor) => repetidor + 1)} >gerar nova ideia</button>

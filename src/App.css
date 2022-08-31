@@ -9,7 +9,7 @@ body{
   text-align: center;
 }
 
-header h2{
+#logo{
   background-color: #AD9C89;
   color: #FFFEFC;
   font-size:2rem;
@@ -25,6 +25,61 @@ header h2{
   border-radius: 1rem;
   color: #422800;
 }
+
+
+
+
+
+
+
+
+
+
+
+#caixa-avaliação{
+  background-color: #fbeee0;
+  color:#422800;
+  padding: 0.50rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-between;
+}
+  #caixa-avaliação>p{
+    font-weight: 600;
+    font-size: 18px;
+  }
+  #caixa-avaliação>div{
+    display: flex;
+    flex-flow: row-reverse;
+  }
+  .estrelas{
+    display: inline-block;
+    all: unset;
+    border: 1px solid rgba(255, 255, 255, 0);
+  }
+  .estrelas::before{
+    display: inline-block;
+    font-size: 2.5rem;
+    content: "\2606";
+  }
+  
+  .estrelas:checked::before, .estrelas:checked ~ .estrelas::before{
+    content: "\2605";
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 .botão-gerador {
   background-color: #fbeee0;
@@ -44,15 +99,13 @@ header h2{
   -webkit-user-select: none;
   touch-action: manipulation;
 }
-
-.botão-gerador:hover {
-  background-color: #fff5ec;
-  color: #976f34;
-}
-
-.botão-gerador:active {
-  box-shadow: #422800 2px 2px 0 0;
-  transform: translate(2px, 2px);
-  transition: 0.02s;
-}
+  .botão-gerador:hover {
+    background-color: #fff5ec;
+    color: #976f34;
+  }
+  .botão-gerador:active {
+    box-shadow: #422800 2px 2px 0 0;
+    transform: translate(2px, 2px);
+    transition: 0.02s;
+  }
 
