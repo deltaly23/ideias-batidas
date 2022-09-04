@@ -1,6 +1,6 @@
 import './App.css';
 import {useEffect, useState} from 'react';
-import {db, storage, functions} from './firebase.js';
+import {db} from './firebase.js';
 import {query} from "firebase/firestore";
 
 
@@ -42,7 +42,7 @@ function App() {
     q.get()
     .then((querySnapshot) => {
 
-      if(querySnapshot.empty == false){/**se ja foi salvo**/
+      if(querySnapshot.empty === false){/**se ja foi salvo**/
         console.log("já foi salvo")
 
         querySnapshot.forEach((doc) => {
@@ -54,7 +54,7 @@ function App() {
           });
         });
 
-      }else if(querySnapshot.empty == true){/**se não foi salvo**/
+      }else if(querySnapshot.empty === true){/**se não foi salvo**/
         console.log("ainda não foi salva")
 
         ideiasSalvas.add({
@@ -143,7 +143,9 @@ function App() {
       
       <button className="botão-gerador" onClick={() => setRepetidor((repetidor) => repetidor + 1)} >gerar nova ideia</button>
       
-      </div>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4248303869237438"
+     crossorigin="anonymous"></script>
+    </div>
   );
 }
 
