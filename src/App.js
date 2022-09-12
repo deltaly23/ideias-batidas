@@ -144,7 +144,7 @@ function App() {
       <button className="botão-gerador" onClick={() => setRepetidor((repetidor) => repetidor + 1)} >gerar nova ideia</button>
       
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4248303869237438"
-     crossorigin="anonymous"></script>
+     crossOrigin="anonymous"></script>
     </div>
   );
 }
