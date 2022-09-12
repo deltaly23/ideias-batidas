@@ -2,6 +2,7 @@ import './App.css';
 import {useEffect, useState} from 'react';
 import {db} from './firebase.js';
 import {query} from "firebase/firestore";
+import TopIdeias from './TopIdeias';
 
 
 
@@ -10,7 +11,7 @@ function App() {
   const [blocos, setBlocos] = useState([]);
   const [repetidor, setRepetidor] = useState(0);
   const [ideiaGerada, setIdeiaGerada] = useState("gerando ideia...");
-  
+  const [listaTop10, setListaTop10] = useState([]);
     
   function gerador(){
     let verboSelecionado = blocos[2].info.lista[Math.floor(Math.random() * blocos[2].info.lista.length)];
@@ -89,6 +90,30 @@ function App() {
 
 
 
+  function gerarTop10(){
+    let ideiasSalvas = db.collection("ideias-salvas"); 
+    
+
+    ideiasSalvas.orderBy('media', 'desc').limit(10).onSnapshot(function(snapshot){
+      setListaTop10(snapshot.docs.map(function(document){
+        return {id:document.id,info:document.data()}
+      }))
+      
+
+      
+    })
+
+    
+  }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -117,6 +142,8 @@ function App() {
         estrelas[i].disabled = false;
         estrelas[i].checked = false;
       }
+
+      gerarTop10();
     }
 
   },[repetidor])
@@ -133,18 +160,35 @@ function App() {
       <form id="caixa-avaliação">
         <p>avalie essa ideia:</p>
         <div>
-          <input className="estrelas" type="radio" name='nota' value="1" onClick={salvarIdeia}></input>
-          <input className="estrelas" type="radio" name='nota' value="2" onClick={salvarIdeia}></input>
-          <input className="estrelas" type="radio" name='nota' value="3" onClick={salvarIdeia}></input>
-          <input className="estrelas" type="radio" name='nota' value="4" onClick={salvarIdeia}></input>
           <input className="estrelas" type="radio" name='nota' value="5" onClick={salvarIdeia}></input>
+          <input className="estrelas" type="radio" name='nota' value="4" onClick={salvarIdeia}></input>
+          <input className="estrelas" type="radio" name='nota' value="3" onClick={salvarIdeia}></input>
+          <input className="estrelas" type="radio" name='nota' value="2" onClick={salvarIdeia}></input>
+          <input className="estrelas" type="radio" name='nota' value="1" onClick={salvarIdeia}></input>
         </div>
       </form>
       
       <button className="botão-gerador" onClick={() => setRepetidor((repetidor) => repetidor + 1)} >gerar nova ideia</button>
       
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4248303869237438"
-     crossOrigin="anonymous"></script>
+      crossOrigin="anonymous"></script>
+
+      <div id="lista-top-10">
+        <h3><b>melhores 10 ideias:</b></h3>
+        <div className='ideias-top-10-desc'>
+          <span id="conteudo"><b>~conteúdo~</b></span>
+          <span id="media"><b>~média~</b></span>
+        </div>
+        {
+          listaTop10.map(function(val){
+            return(
+              <TopIdeias info={val.info} id={val.id} />
+              
+            )
+          })
+        }
+      </div>
+
     </div>
   );
 }
